@@ -69,4 +69,19 @@ router.delete('/products/:id', async (req, res) => {
 })
 
 
+// router.get('/products', async (req, res) => {
+//     try {
+//         const products = await Product.find({})
+//         const page = (
+//             <App>
+//                 <ProductsPage products={products} />
+//             </App>
+//         )
+//         res.send(ReactDom.renderToString(page))
+//     } catch (e) {
+//         res.status(500).send()
+//     }
+// })
+
+
 module.exports = router 
