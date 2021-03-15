@@ -13,13 +13,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        // match: /^([a-zA-Z0-9@*#]{8,15})$/,
-        // validate: (value) => {
-        //         if (value.toLowerCase().includes('password')) {
-        //             throw new Error('Password cannot be password!')
-        //         }
-        //     }
-        
+        // match: /^([a-zA-Z0-9@*#]{8,15})$/
     },
     name: {
         type: String

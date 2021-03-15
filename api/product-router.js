@@ -39,9 +39,7 @@ router.get('/products/:id', async (req, res) => {
 
 router.patch('/products/:id', async (req, res) => {
     const id = req.params.id
-    console.log(id)
     const update = req.body
-    console.log(update)
     try {
         // async & await
         const product = await Product.findByIdAndUpdate(id, update, { new: true })
