@@ -23,5 +23,8 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  }
 }

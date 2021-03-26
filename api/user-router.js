@@ -1,7 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-// const cookieParser = require('cookie-parser')
 const router = express.Router()
 const User = require('../models/user')
 const auth = require('../middleware/authorization')
@@ -61,27 +60,26 @@ router.post('/login', async (req, res) => {
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id)
     try {
-        res.status(201).send(user)
+        res.status(200).send(user)
     } catch (e) {
         res.status(500).send({ error: 'Something went wrong' })
     }
 })
 
-router.patch('/edit', async (req, res) => {
+router.patch('/edit', auth, async (req, res) => {
     const update = req.body
     try {
-        const user = await User.findByIdAndUpdate('604764eb0fc2005241b44f42', update, { new: true } )
+        const user = await User.findByIdAndUpdate(req.user._id, update, { new: true } )
         res.status(200).send(user)
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({ error: 'Something went wrong' })
         
     }
 })
 
-router.delete('/delete', async (req, res) => {
-    const email = req.body.email
+router.delete('/delete', auth, async (req, res) => {
     try {
-        const user = await User.findOneAndRemove({ email })
+        const user = await User.findByIdAndDelete(req.user._id)
         if (!user) {
             return res.status(404).send({ error: 'Email doesn\'t exists.'})
         }

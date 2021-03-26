@@ -11,7 +11,7 @@ const auth = (req, res, next) => {
             next()
         })
     } else {
-        res.status(401).send({ error: 'Not authorized' })
+        return res.status(401).send({ error: 'Not authorized' })
     }
   
 
