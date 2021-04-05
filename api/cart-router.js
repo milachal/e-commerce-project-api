@@ -1,33 +1,74 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/authorization')
-const User = require('../models/user')
 const Cart = require('../models/cart')
-const { findByIdAndDelete, findByIdAndRemove } = require('../models/user')
+const addQuantityToCartProducts = require('../utils/addQuantityToCartProducts')
+const changeQuantity = require('../utils/changeQuantity')
 
 router.post('/cart', auth, async (req, res) => {
     const user = req.user
-    const cart  =  await Cart.findOne({ user: req.user._id  })
-    const productsArr = cart.products
+    const cart  =  await Cart.findOne({ user: user._id  })
 
     try {
         if (!cart) {
             const newCart = new Cart({ user: user._id })
-            try {
-                await newCart.save()
-                return res.status(201).send(newCart)
-            } catch (e) {
-                return res.status(404).send(e)
-            }
-        }
+            
+            await newCart.save()
+            res.status(201).send(newCart) 
 
-        productsArr.push(req.body.products)
-        console.log(req.body.products, 'from req')
-        console.log(productsArr, 'arr')
-        await cart.save()
-        console.log(productsArr, 'products')
-        return res.send(cart)
+        } else if (req.body.quantity) {
+            const productsArr = cart.products
+            const id = req.body.productId
+            const quantity = req.body.quantity
+
+            if (quantity < 1 || quantity > 10) {
+                return res.status(400).send()
+            }
+            
+            const newProductArr = changeQuantity(productsArr, id, quantity)
+
+            cart.products = newProductArr
+            await cart.save()
+            res.status(200).send(newProductArr)   
+
+        } else {
+            const productsArr = cart.products
+            
+            productsArr.push(req.body.products)
+            await cart.save()
+            res.status(200).send(cart)
+        }
         
+    } catch (e) {
+        console.log(e)
+        res.status(500).send()
+    }
+})
+
+router.get('/cart', auth, async (req, res) => {
+    const userId = req.user._id
+    try {
+        const cart = await Cart.findOne({ user: userId }).populate('products').lean()
+        const newProductsArr = addQuantityToCartProducts(cart.products)
+        return res.status(200).send(newProductsArr)
+
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.delete('/cart', auth, async(req, res) => {
+    const productId = req.body._id
+    const userId = req.user._id
+    const cart = await Cart.findOne({ user: userId })
+    const newProductsArr = cart.products.filter(product => {
+        return product.toString() !== productId
+    })
+    cart.products = newProductsArr
+    
+    try {
+        await cart.save()
+        res.status(200).send(newProductsArr)
     } catch (e) {
         console.log(e)
         res.status(500).send()
