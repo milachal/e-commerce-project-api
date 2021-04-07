@@ -6,6 +6,7 @@ const productRouter = require('./api/product-router')
 const userRouter = require('./api/user-router')
 const authRouter = require('./api/auth')
 const cartRouter = require('./api/cart-router')
+const orderRouter = require('./api/order-router')
 const app = express()
 const morgan = require('morgan')
 
@@ -18,6 +19,7 @@ app.use(morgan('combined'))
 app.use('/api', productRouter)
 app.use('/api', authRouter)
 app.use('/api', cartRouter)
+app.use('/api', orderRouter)
 app.use('/api/account', userRouter)
 
 module.exports = app

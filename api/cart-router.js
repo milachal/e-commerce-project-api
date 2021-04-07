@@ -7,7 +7,8 @@ const changeQuantity = require('../utils/changeQuantity')
 
 router.post('/cart', auth, async (req, res) => {
     const user = req.user
-    const cart  =  await Cart.findOne({ user: user._id  })
+    const cart  =  await Cart.findOne({ user: user._id })
+    const cartLean  = await Cart.findOne({ user: user._id }).populate('products').lean()
 
     try {
         if (!cart) {
@@ -29,7 +30,8 @@ router.post('/cart', auth, async (req, res) => {
 
             cart.products = newProductArr
             await cart.save()
-            res.status(200).send(newProductArr)   
+            const productsWithQuantity = addQuantityToCartProducts(cartLean.products)
+            res.status(200).send(productsWithQuantity)
 
         } else {
             const productsArr = cart.products

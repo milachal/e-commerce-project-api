@@ -1,7 +1,6 @@
 const changeQuantity = (productsArr, id, quantity) => {
     const newProductArr = [...productsArr]
     const filteredIds = productsArr.filter((pr) => {
-        console.log(pr, 'pr')
         return pr.toString() === id
     })
     
