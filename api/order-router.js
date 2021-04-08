@@ -37,7 +37,10 @@ router.get('/order', auth, async (req, res) => {
 router.get('/order/:id', auth, async (req, res) => {
     const userId = req.user._id
     const id = req.params.id
-    const order = await Order.find({ user: userId, _id: id }).populate('products').lean()
+    const order = await Order.findOne({ user: userId, _id: id }).populate('products').lean()
+    const orderProductsWithQuantity = addQuantityToCartProducts(order.products)
+
+    order.products = orderProductsWithQuantity
 
     try {
         res.status(200).send(order)
