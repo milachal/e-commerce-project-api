@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
 const User = require('../models/user')
-const auth = require('../middleware/authorization')
+const Cart = require('../models/cart')
+const { auth } = require('../middleware/authorization')
 
 router.post('/signup', async (req, res) => {
     const { email, password, name } = req.body
@@ -24,9 +25,13 @@ router.post('/signup', async (req, res) => {
                 name
             })
             await user.save()
+            const newCart = new Cart({ user: user._id })
+            
+            await newCart.save()
             const token = jwt.sign({ 
                 _id: user._id,
-                name: user.name 
+                name: user.name,
+                status: user.status 
             }, process.env.PRIVATE_KEY, { expiresIn: '1 year' })
             res.cookie('jwt-token', token)
             res.status(201).send(user)
@@ -48,7 +53,8 @@ router.post('/login', async (req, res) => {
     if(match) {
         const token = jwt.sign({
             _id: user._id,
-            name: user.name
+            name: user.name,
+            status: user.status
         }, process.env.PRIVATE_KEY, { expiresIn: '1 year' })
         res.cookie('jwt-token', token)
 

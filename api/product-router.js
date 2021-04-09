@@ -1,8 +1,9 @@
 const express = require('express')
 const Product = require('../models/product')
 const router = express.Router()
+const { auth, adminAuth } = require('../middleware/authorization')
 
-router.post('/add-new-product', async (req, res) => {
+router.post('/add-new-product', auth, adminAuth, async (req, res) => {
     // const body = req.body
     // body.sex = body.sex.toLowerCase()
     // body.category = body.category.LowerCase()
@@ -37,7 +38,7 @@ router.get('/products/:id', async (req, res) => {
     }
 })
 
-router.patch('/products/:id', async (req, res) => {
+router.patch('/products/:id', auth, adminAuth, async (req, res) => {
     const id = req.params.id
     const update = req.body
     try {
@@ -53,7 +54,7 @@ router.patch('/products/:id', async (req, res) => {
     }
 })
 
-router.delete('/products/:id', async (req, res) => {
+router.delete('/products/:id', auth, adminAuth, async (req, res) => {
     const id = req.params.id
     try {
         const product = await Product.findByIdAndRemove(id)

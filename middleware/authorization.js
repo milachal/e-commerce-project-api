@@ -13,8 +13,18 @@ const auth = (req, res, next) => {
     } else {
         return res.status(401).send({ error: 'Not authorized' })
     }
-  
-
 }
 
-module.exports = auth
+const adminAuth = (req, res, next) => {
+    const status = req.user.status
+    console.log(status)
+
+    if (status === 'admin') {
+        next()
+    } else {
+        return res.status(401).send('No permission')
+    }
+}
+
+module.exports.auth = auth
+module.exports.adminAuth = adminAuth

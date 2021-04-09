@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const auth = require('../middleware/authorization')
+const { auth } = require('../middleware/authorization')
 const Cart = require('../models/cart')
 const addQuantityToCartProducts = require('../utils/addQuantityToCartProducts')
 const changeQuantity = require('../utils/changeQuantity')
@@ -55,6 +55,7 @@ router.get('/cart', auth, async (req, res) => {
         return res.status(200).send(newProductsArr)
 
     } catch (e) {
+        console.log(e)
         res.status(500).send()
     }
 })

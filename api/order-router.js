@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const auth = require('../middleware/authorization')
+const { auth } = require('../middleware/authorization')
 const Order = require('../models/order')
 const Cart = require('../models/cart')
 const addQuantityToCartProducts = require('../utils/addQuantityToCartProducts')
