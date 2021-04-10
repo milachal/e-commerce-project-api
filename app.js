@@ -7,6 +7,7 @@ const userRouter = require('./api/user-router')
 const authRouter = require('./api/auth')
 const cartRouter = require('./api/cart-router')
 const orderRouter = require('./api/order-router')
+const adminRouter = require('./api/admin-router')
 const app = express()
 const morgan = require('morgan')
 
@@ -20,6 +21,7 @@ app.use('/api', productRouter)
 app.use('/api', authRouter)
 app.use('/api', cartRouter)
 app.use('/api', orderRouter)
+app.use('/api/admin', adminRouter)
 app.use('/api/account', userRouter)
 
 module.exports = app

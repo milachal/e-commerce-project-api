@@ -17,7 +17,6 @@ const auth = (req, res, next) => {
 
 const adminAuth = (req, res, next) => {
     const status = req.user.status
-    console.log(status)
 
     if (status === 'admin') {
         next()

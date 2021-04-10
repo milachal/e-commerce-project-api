@@ -30,8 +30,8 @@ router.post('/signup', async (req, res) => {
             await newCart.save()
             const token = jwt.sign({ 
                 _id: user._id,
-                name: user.name,
-                status: user.status 
+                status: user.status,
+                name: user.name
             }, process.env.PRIVATE_KEY, { expiresIn: '1 year' })
             res.cookie('jwt-token', token)
             res.status(201).send(user)
@@ -53,8 +53,8 @@ router.post('/login', async (req, res) => {
     if(match) {
         const token = jwt.sign({
             _id: user._id,
-            name: user.name,
-            status: user.status
+            status: user.status,
+            name: user.name
         }, process.env.PRIVATE_KEY, { expiresIn: '1 year' })
         res.cookie('jwt-token', token)
 
