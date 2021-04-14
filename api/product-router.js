@@ -48,7 +48,7 @@ router.patch('/products/:id', auth, adminAuth, async (req, res) => {
         if (!product) {
             return res.status(404).send()
         }
-        res.send(product)
+        res.status(200).send(product)
     } catch (e) {
         res.status(500).send()
     }

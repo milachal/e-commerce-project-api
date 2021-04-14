@@ -16,6 +16,9 @@ const orderSchema = new Schema({
     status: {
         type: String,
         default: 'In procces'
+    },
+    total: {
+        type: Number
     }
 }, { timestamps: true })
 

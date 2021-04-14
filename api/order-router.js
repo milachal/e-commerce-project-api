@@ -10,7 +10,7 @@ router.post('/order', auth, async (req, res) => {
     const cart = await Cart.findOne({ user: userId })
 
     try {
-        const newOrder = new Order({ user: userId, products: cart.products })
+        const newOrder = new Order({ user: userId, products: cart.products, total: req.body.total })
         await newOrder.save()
         cart.products = []
         cart.save()
@@ -46,6 +46,21 @@ router.get('/order/:id', auth, async (req, res) => {
         res.status(200).send(order)
     } catch (e) {
         res.status(500).send({ Error: "Something went wrong. Please try again." })
+    }
+})
+
+router.patch('/order/:id', auth, async(req, res) => {
+    const id = req.params.id
+    const update = req.body
+
+    try {
+        const order = await Order.findByIdAndUpdate(id, update, { new: true })
+        if (!order) {
+            res.status(404).send()
+        }
+        res.status(200).send(order)
+    } catch (e) {
+        res.status(500).send()
     }
 })
 
