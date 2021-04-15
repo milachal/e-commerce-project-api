@@ -49,19 +49,5 @@ router.get('/order/:id', auth, async (req, res) => {
     }
 })
 
-router.patch('/order/:id', auth, async(req, res) => {
-    const id = req.params.id
-    const update = req.body
-
-    try {
-        const order = await Order.findByIdAndUpdate(id, update, { new: true })
-        if (!order) {
-            res.status(404).send()
-        }
-        res.status(200).send(order)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
 
 module.exports = router
