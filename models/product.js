@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     price: {
-        type: Number,
+        type: mongoose.Decimal128,
         required: true
     },
     sex: {

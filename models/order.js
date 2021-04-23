@@ -18,7 +18,7 @@ const orderSchema = new Schema({
         default: 'In procces'
     },
     total: {
-        type: Number
+        type: mongoose.Decimal128
     }
 }, { timestamps: true })
 
