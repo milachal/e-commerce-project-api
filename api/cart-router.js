@@ -1,9 +1,11 @@
 const express = require('express')
+const { Socket } = require('socket.io')
 const router = express.Router()
 const { auth } = require('../middleware/authorization')
 const Cart = require('../models/cart')
 const addQuantityToCartProducts = require('../utils/addQuantityToCartProducts')
 const changeQuantity = require('../utils/changeQuantity')
+// const chlak = require('chalk')
 
 router.post('/cart', auth, async (req, res) => {
     const user = req.user
@@ -14,6 +16,8 @@ router.post('/cart', auth, async (req, res) => {
             const newCart = new Cart({ user: user._id })
             
             await newCart.save()
+
+
             res.status(201).send(newCart) 
 
         } else if (req.body.quantity) {
@@ -29,6 +33,11 @@ router.post('/cart', auth, async (req, res) => {
 
             cart.products = newProductArr
             await cart.save()
+            
+            // req.io.on('connection', (socket) => {
+            //     socket.emit('cartCount', cart.products.length)
+            // })
+
             const cartLean  = await Cart.findOne({ user: user._id }).populate('products').lean()
             const productsWithQuantity = addQuantityToCartProducts(cartLean.products)
             res.status(200).send(productsWithQuantity)

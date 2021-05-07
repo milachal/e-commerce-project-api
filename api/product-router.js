@@ -3,13 +3,14 @@ const Product = require('../models/product')
 const router = express.Router()
 const { auth, adminAuth } = require('../middleware/authorization')
 
+
 router.post('/add-new-product', auth, adminAuth, async (req, res) => {
     // const body = req.body
     // body.sex = body.sex.toLowerCase()
     // body.category = body.category.LowerCase()
     const product = new Product(req.body)
     try {
-       await product.save()
+        await product.save()
         res.status(201).send(product)
     } catch (e) {
         res.status(404).send(e)
