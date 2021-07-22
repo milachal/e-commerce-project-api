@@ -5,9 +5,6 @@ const router = express.Router();
 const { auth, adminAuth } = require('../middleware/authorization');
 
 router.post('/add-new-product', auth, adminAuth, async (req, res) => {
-  // const body = req.body
-  // body.sex = body.sex.toLowerCase()
-  // body.category = body.category.LowerCase()
   const product = new Product(req.body);
   try {
     await product.save();
@@ -66,19 +63,5 @@ router.delete('/products/:id', auth, adminAuth, async (req, res) => {
     res.status(500).send();
   }
 });
-
-// router.get('/products', async (req, res) => {
-//     try {
-//         const products = await Product.find({})
-//         const page = (
-//             <App>
-//                 <ProductsPage products={products} />
-//             </App>
-//         )
-//         res.send(ReactDom.renderToString(page))
-//     } catch (e) {
-//         res.status(500).send()
-//     }
-// })
 
 module.exports = router;

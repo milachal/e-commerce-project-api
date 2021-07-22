@@ -34,9 +34,8 @@ router.post('/user', auth, adminAuth, async (req, res) => {
 });
 
 router.patch('/user', auth, async (req, res) => {
-  // restrict update to only status
+  
   const update = req.body;
-  // const user = await User.findOne({ email: req.body.email })
 
   try {
     const user = await User.findOneAndUpdate({ email: req.body.email }, update, { new: true });
