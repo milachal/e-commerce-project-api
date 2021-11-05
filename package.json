@@ -16,7 +16,6 @@
   "scripts": {
     "start": "env-cmd -f ./config/.env nodemon app.js",
     "test": "env-cmd -f ./config/test.env jest --watchAll",
-    "build": "npm run build && node server.js",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --fix --ext js"
   },
