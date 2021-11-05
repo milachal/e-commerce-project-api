@@ -1,6 +1,5 @@
 const addQuantityToCartProducts = (products) => {
   const newProductsArr = [];
-
   for (let i = 0; i < products.length; i++) {
     const product = products[i];
     let isMatch = false;
