@@ -5,7 +5,7 @@ require('./db/mongoose');
 const morgan = require('morgan');
 
 const app = express();
-const port = 3001;
+const PORT = process.env.PORT || 3001;
 
 const http = require('http');
 
@@ -31,7 +31,7 @@ app.use('/api', orderRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/account', userRouter);
 
-server.listen(port, () => {
+server.listen(PORT, () => {
   /* eslint-disable */
-  console.log(`Server is running on ${port}.`);
+  console.log(`Server is running on ${PORT}.`);
 });
