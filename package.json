@@ -14,7 +14,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f ./config/.env nodemon app.js",
+    "dev": "env-cmd -f ./config/.env nodemon app.js",
+    "start": "node app.js",
     "test": "env-cmd -f ./config/test.env jest --watchAll",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --fix --ext js"
