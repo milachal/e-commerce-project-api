@@ -6,7 +6,6 @@ const morgan = require('morgan');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const origin = process.env.FE_PROD || process.env.FE_DEV;
 
 const http = require('http');
 
@@ -19,7 +18,7 @@ const cartRouter = require('./api/cart-router');
 const orderRouter = require('./api/order-router');
 const adminRouter = require('./api/admin-router');
 
-app.use(cors({ credentials: true, origin }));
+app.use(cors({ credentials: true, origin: process.env.FE }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
