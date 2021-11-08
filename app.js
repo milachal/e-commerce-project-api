@@ -1,3 +1,5 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(process.cwd(), 'config/.env') });
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -17,7 +19,7 @@ const authRouter = require('./api/auth');
 const cartRouter = require('./api/cart-router');
 const orderRouter = require('./api/order-router');
 const adminRouter = require('./api/admin-router');
-const origin = process.env.FE || process.env.FE_DEV;
+const origin = process.env.NODE_ENV === 'production' ? process.env.FE : process.env.FE_DEV;
 
 app.use(cors({ credentials: true, origin }));
 app.use(express.json());
