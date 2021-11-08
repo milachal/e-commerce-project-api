@@ -17,8 +17,9 @@ const authRouter = require('./api/auth');
 const cartRouter = require('./api/cart-router');
 const orderRouter = require('./api/order-router');
 const adminRouter = require('./api/admin-router');
+const origin = process.env.FE || process.env.FE_DEV;
 
-app.use(cors({ credentials: true, origin: process.env.FE }));
+app.use(cors({ credentials: true, origin }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
